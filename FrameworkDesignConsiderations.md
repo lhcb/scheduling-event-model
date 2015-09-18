@@ -13,7 +13,8 @@ as much as feasible from the implementation of the reconstruction and selection 
 as these will be dominantly implemented by those who should not have to deal with 
 the implementation details of the concurrency. A total isolation will most likely
 not be feasible, so guidelines should be formulated that will allow developers to write
-'concurrency friendly' code, i.e. code that does not misbehave in a concurrent system.
+'concurrency friendly' code, i.e. code that does not misbehave when exectued as part 
+of a concurrent system.
 
 To enable concurrency, the first hurdle seems to be the description of data dependencies
 amongst Algorithms. One option could be to add sufficient introspection to Algorithms,
@@ -37,4 +38,11 @@ work on input from multiple events in a single invocation.
 
 
 
+# Concurrency Friendly
+In the above, we outlined that code should be written in a 'concurrency friendly' style.
+Here we detail want this entails:
 
+* no statics.
+* const interface.
+* do not modify input data
+* ...
