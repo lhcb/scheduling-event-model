@@ -46,11 +46,28 @@ work on input from multiple events in a single invocation.
 # Operations
 
 In addtion to `Transform` there is at least one more operation required: reduction.
-A prime example of reduction is `std::accumulate`. It operates an a vector of values,
-and can be seen as a generalization of eg. summation. This operation is eg. needed
-to combine a list of Hlt decisions into one global decision -- in this case the
-operation is logical or. Let us call the corresponding algorithm `Accumulator`. 
+A prime example of reduction is `std::accumulate`. It operates on a vector of values,
+and produces a single scalar result. An example of such a reduction is summation.
+This operation is eg. needed to combine a list of Hlt decisions into one global decision -- in 
+this case the binary operation used to combine two results is logical `OR`, and the initial 
+value is `false`. Note that in this case the result is independent of the order in which one
+iterates over the input vector. But that is not always the case.
+Let us call the corresponding algorithm `Accumulator`. 
 
+(note: N4505, 4.2 calls this 'generalized sum', and provides a commutative and a non-commutative version;
+Stepanov correctly maps this operation to the concept of 'semi-ring', see e.g. https://en.wikipedia.org/wiki/Semiring,
+structures with two binary operations, called 'addition' and 'multiplication' but note that these names are
+more generic than the addition and mulitplication of numbers)
+
+
+
+# More operations
+
+In general we expect that the processing can be described by a directed, acyclic graph, through
+which data flows. However, it is not always needed that the data flows through the entire graph.
+In the trigger, where most data is rejected, one does not need all derived data to come to the 
+conclusion that an event is not interesting. As a result, we need a means of short circuiting 
+further processing.
 
 
 # Concurrency Friendly
@@ -59,5 +76,5 @@ Here we detail what this entails:
 
 * no statics.
 * const interface.
-* do not modify input data
+* NEVER modify input data
 * ...

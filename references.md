@@ -4,6 +4,7 @@ place holder for some links:
 
 1. [Atlas future framework](https://indico.cern.ch/event/399816/attachments/800679/1097304/ffreq-report-draft.pdf)
 2. C++ Guidelines
+  + [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines)
   + [Guideline Support Library](https://github.com/Microsoft/GSL)
 2. C++ standardization proposals
   + [C++ N4501, Extensions for Concurrency](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4501.html)
