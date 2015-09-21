@@ -30,7 +30,7 @@ typical use cases that are expected to occur:
    blocks of tools or algorithms that take some input data, transform it in
    some way, and return the result to the caller; for example vectorised
    fitting of tracks, potentially on some kind of accelerator card (GPU, FPGA,
-   or similar...).
+   or similar...). EBCKs are usually a building block of algorithms.
 
 ## Communication mechanism among concurrent threads of execution
 
@@ -63,9 +63,12 @@ defined order on all threads, so that different threads cannot block each
 other).
 
 Interface-wise, it would be nice if the message passing could be implemented
-using (bidirectional) pipes (and potentially named pipes) as a model at the
-lowest level, since they are fairly easy to reason about. (Clearly, more
-complex primitives can be built based on these primitives.)
+using (bidirectional) pipes (and potentially named pipes, or sockets) as a
+model at the lowest level, since they are fairly easy to reason about. Clearly,
+more complex primitives can be built based on these primitives. (It should be
+understood that I'm only borrowing the terminology of good operating systems
+here, the actual primitves can be implemented in a very different way in the
+framework.)
 
 Unnamed pipes work well in the situation where an algorithm spawns multiple
 worker threads to treat some problem; each thread can then read its input from
@@ -79,10 +82,18 @@ busy-waiting on the pipes. See the BidirMMapPipe class in RooFit where this
 kind of idea is used for IPC between a parent process and its children, the
 worker processes.
 
-Named pipes should work well when there is some kind of "service" to
-communicate with that has no direct relation to the algorithm itself, for
+Named pipes (or sockets) should work well when there is some kind of "service"
+to communicate with that has no direct relation to the algorithm itself, for
 example an EPCK which does parts of the pattern reco or track fit very
 efficiently on large vectors of input data.
+
+These pipes should have some kind of mailbox mechanism to queue messages until
+consumption. For named pipes, this also permits the scenario in which one
+master process keeps queuing up work packets in a tight loop, and multiple
+worker threads consume them from the same named pipe, each unqueuing one
+message from the mailbox. In any case, message delivery should be guaranteed by
+blocking the sending process until space for the new message is available.
+
 
 ## Embarrasingly Parallel Compute Kernels (EPCK) and Event Batching
 
@@ -131,4 +142,23 @@ until their input is available.
 Such a mode of concurrent operation does imply that the data on the TES has to
 be immutable once it has been put there - otherwise algorihms may see outdated
 versions of objects on the TES.
+
+## Implications for Gaudi's Tools and Algorithms
+
+In a concurrent running scenario, Tools and Algorithms must use state
+sparingly. Immutable state is fine, but state that changes within an event, or
+from event to event will need to be protected from concurrent access, and
+therefore limit the parallelisation opportunities.
+
+Special care must be taken with counter-like data like counters, histograms and
+ntuples. Again, these services should be implemented in services that talk to
+the tools and algorithms using message passing. That way, the most frequent
+type of message (increment counter, fill histogram, fill tuple) can be queued
+in the pipe's mailbox without blocking the time-sensitive part of the
+algorithm. Obviosuly, care must be taken that these services are given enough
+priority to avoid the calling tools or algorithms blocking on a full mailbox.
+
+
+
+
 
