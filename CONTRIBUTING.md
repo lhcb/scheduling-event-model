@@ -1,7 +1,7 @@
 # Contributing
 
-We use the [fork and pull](gh-fork-pull) model to manage changes. More information
-about [forking a repository](gh-fork) and [making a Pull Request](gh-pull).
+We use the [fork and pull][gh-fork-pull] model to manage changes. More information
+about [forking a repository][gh-fork] and [making a Pull Request][gh-pull].
 
 This set of documents and codes evolves by making a concrete proposal for a
 change (a pull request), followed by a discussion of that proposal within the
@@ -42,3 +42,8 @@ else has to press the button.
 
 All documents should be written in [markdown]() which is rendered automatically
 when viewing the repository on github, to preview things locally [install Pandoc](http://www.pandoc.org/installing)
+
+[gh-fork]: https://help.github.com/articles/fork-a-repo/
+[gh-pull]: https://help.github.com/articles/using-pull-requests/
+[gh-fork-pull]: https://help.github.com/articles/using-pull-requests/#fork--pull
+
