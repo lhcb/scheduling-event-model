@@ -3,7 +3,7 @@
 The framework will have to work efficiently on many/multi core systems.
 Presumably, this will imply some level of concurrency. As a result, scheduling
 operations to be performed on the data will become more dynamic, and much
-more complex then our current serial case, where `Algorithm`s are statically
+more complex than our current serial case, where `Algorithm`s are statically
 scheduled, and the only dynamic aspects are the early abort of certain branches 
 of the graph of `Algorithm`s, and the skipping of `Algorithm`s that have already 
 executed for the current event.
