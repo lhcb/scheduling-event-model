@@ -55,7 +55,7 @@ operation is logical or. Let us call the corresponding algorithm `Accumulator`.
 
 # Concurrency Friendly
 In the above, we outlined that code should be written in a 'concurrency friendly' style.
-Here we detail want this entails:
+Here we detail what this entails:
 
 * no statics.
 * const interface.
