@@ -8,4 +8,4 @@ Ideas about the future of scheduling and event models
 * [General considerations](GeneralConsiderations.md)
 * [Framework considerations](FrameworkDesignConsiderations.md)
 * [Event Model considerations](EventModelDesignConsiderations.md)
-* [References](References.md)
+* [References](references.md)
