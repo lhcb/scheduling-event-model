@@ -13,8 +13,8 @@ framework can support:
 In our use case, we have to rely on the push mode, since the input (events)
 trickle in at a fixed rate, and we have multiple outputs (various "streams"
 that get written to different files) for which we do not know a priori which
-events will end up in which output (so "pulling" at the end is not easily
-possible).
+events will end up in which output, or even whether they will be accepted in 
+the first place (so "pulling" at the end is not easily possible).
 
 ## Types of concurrency
 

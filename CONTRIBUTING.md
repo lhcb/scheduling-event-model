@@ -42,3 +42,8 @@ else has to press the button.
 
 All documents should be written in [markdown]() which is rendered automatically
 when viewing the repository on github, to preview things locally [install Pandoc](http://www.pandoc.org/installing)
+
+[gh-fork]: https://help.github.com/articles/fork-a-repo/
+[gh-pull]: https://help.github.com/articles/using-pull-requests/
+[gh-fork-pull]: https://help.github.com/articles/using-pull-requests/#fork--pull
+
