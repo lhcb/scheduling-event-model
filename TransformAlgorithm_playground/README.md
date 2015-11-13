@@ -45,3 +45,13 @@ eg. 'git diff Paris2015-baseline HEAD'
  Tr/TrackUtils/src/TrackListMerger.cpp              |   23 +--
  16 files changed, 298 insertions(+), 571 deletions(-)
 
+In case you don't want to check out the code in git, you can see the differences
+directly on gitlab using the following URL:
+
+https://gitlab.cern.ch/graven/Rec/compare/Paris2015-baseline...Paris2015
+
+or in a (nicer) side-by-side view:
+
+https://gitlab.cern.ch/graven/Rec/compare/Paris2015-baseline...Paris2015?view=parallel
+
+
