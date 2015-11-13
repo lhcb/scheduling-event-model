@@ -1,25 +1,25 @@
 # TransformAlgorithm Playground
 
 The setup-lhcb-build.sh script in this directory will checkout versions
-of Guadi, LHCb, Lbcom, Rec and Brunel from a git branch dedicated to 
+of Gaudi, LHCb, Lbcom, Rec and Brunel from a git branch dedicated to 
 playing around with 'TransformAlgorithm'.
 
 
 The aim of 'TransformAlgorithm' is to demonstrate 
- - one can remove explicit TES interactions from non-framework code
- - one can make many algorithms 'const' during the actual processing of events
- - one can pass input and output 'by const reference' resp. 'by value' without
-   loss of efficiency
+    - one can remove explicit TES interactions from non-framework code
+    - one can make algorithms 'const' during the event loop
+    - one can pass input and output 'by const reference' resp. 'by value' without
+      loss of efficiency
 
 The above results in 
-  - less 'boiler plate', 
-  - more uniform 'look and feel'
-  - naturally provides a more 'declarative' style of codeing
-  - code which is more 'future proof', i.e.
-      o  can be wrapped in futures
-      o  can be run asychonously
-      o  can allow for automatic scalar->vector adaption
-         (i.e. 'user' only needs to provide scalar operation)
+    - less 'boiler plate', 
+    - more uniform 'look and feel'
+    - naturally provides a more 'declarative' style of codeing
+    - code which is more 'future proof', i.e. it
+         +  can be wrapped in futures
+         +  can be run asychonously
+         +  can allow for automatic scalar->vector adaption
+            (i.e. 'user' only needs to provide scalar operation)
 
 
 The changes can be shown by going into the Rec directory, and
