@@ -23,14 +23,14 @@ log() {
 }
 
 # Check for required binaries on the host
-if [ \! -x "$(which git)" ]; then
+if [ \! -x "$(which git 2>/dev/null)" ]; then
         log ERR "Git is not installed"
         exit 1
 fi
-if [ \! -x "$(which ninja)" ];then
+if [ \! -x "$(which ninja 2>/dev/null)" ];then
         log WARN "Ninja is not installed. Will Install Ninja "
 fi
-if [ \! -x "$(which ccache-swig)" ];then
+if [ \! -x "$(which ccache-swig 2>/dev/null)" ];then
         log WARN "Ccache-swig is not installed. Expect slow(er) rebuilds"
 fi
 if [ "$(whoami)" = "root" ];then
@@ -74,14 +74,14 @@ export CMTPROJECTPATH=$PWD:$CMTPROJECTPATH
 unset VERBOSE
 EOF
 
-if [ \! -x "$(which ninja)" ];then
+if [ \! -x "$(which ninja >& /dev/null)" ];then
     log INFO "Ninja not found -- checking out and building ninja"
     git clone git://github.com/martine/ninja.git ninja-build
     ( cd ninja-build ; git checkout release ; ./configure.py --bootstrap )
     cp ninja-build/ninja $DST/ninja
     rm -rf ninja-build
     cat <<EOF >>setup.sh
-if [ \! -x "\$(which ninja)" ];then
+if [ \! -x "\$(which ninja 2> /dev/null)" ];then
     export PATH=${DST}:\$PATH
 fi
 EOF
