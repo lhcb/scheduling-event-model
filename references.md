@@ -8,7 +8,7 @@ place holder for some links:
   + [Guideline Support Library](https://github.com/Microsoft/GSL)
   + [cppcon keynote Bjarne Stroustrup](https://www.youtube.com/watch?v=1OEu9C51K2A)
   + [cppcon keynote Herb Sutter](https://www.youtube.com/watch?v=hEx5DNLWGgA)
-3. C++ standardization proposals
+3. [C++ standardization proposals](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015)
   + [C++ N4501, Extensions for Concurrency](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4501.html)
   + [C++ N4505, Extensions for Parallelism](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4505.pdf)
   + [C++ P0021R0, Extension for Ranges](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/p0021r0.pdf)
