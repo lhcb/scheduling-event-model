@@ -23,7 +23,7 @@ place holder for some links:
   + [Task scheduler](https://www.threadingbuildingblocks.org/docs/help/tbb_userguide/The_Task_Scheduler.htm)
   + [Flow graphs](https://www.threadingbuildingblocks.org/tutorial-intel-tbb-flow-graph)
 6. [Microsoft Parallel Patterns Library (PPL)](https://msdn.microsoft.com/en-us/library/dd492418.aspx)
-7. Apple GCD
+7. [Apple GCD](https://libdispatch.macosforge.org)
   + [Apple GCD Reference Guide](https://developer.apple.com/library/mac/documentation/Performance/Reference/GCD_libdispatch_Ref/index.html)
   + [Apple GCD best practices](http://amattn.com/p/grand_central_dispatch_gcd_summary_syntax_best_practices.html)
 8. [Google TensorFlow](http://www.tensorflow.org)
