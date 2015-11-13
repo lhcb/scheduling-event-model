@@ -6,8 +6,8 @@ place holder for some links:
 2. C++ Guidelines
   + [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines)
   + [Guideline Support Library](https://github.com/Microsoft/GSL)
-  + [cppcon keynote Bjarne Stroustrup]
-  + [cppcon keynote Herb Sutter]
+  + [cppcon keynote Bjarne Stroustrup](https://www.youtube.com/watch?v=1OEu9C51K2A)
+  + [cppcon keynote Herb Sutter](https://www.youtube.com/watch?v=hEx5DNLWGgA)
 3. C++ standardization proposals
   + [C++ N4501, Extensions for Concurrency](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4501.html)
   + [C++ N4505, Extensions for Parallelism](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/n4505.pdf)
@@ -16,8 +16,7 @@ place holder for some links:
   + [C++ P0072R0, Light Weight Execution Agents](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/p0072r0.pdf)
   + [C++ P0113R0, Executors](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/p0113r0.html)
   + [C++ P0114R0, Resumable Expressions](http://open-std.org/JTC1/SC22/WG21/docs/papers/2015/p0114r0.pdf)
-4. HPX
-  + [HPX](http://stellar.cct.lsu.edu/projects/hpx/)
+4. [HPX](http://stellar.cct.lsu.edu/projects/hpx/)
   + [HPX - A Task Based Programming Model in a Global Address Space](http://stellar.cct.lsu.edu/pubs/pgas14.pdf)
   + [The Performance Implication of Task Size for Applications on the HPX Runtime System](http://stellar.cct.lsu.edu/pubs/hpcmaspa2015.pdf)
 5. [Intel Threading Building Blocks (TBB)](https://www.threadingbuildingblocks.org)
@@ -29,8 +28,9 @@ place holder for some links:
   + [Apple GCD best practices](http://amattn.com/p/grand_central_dispatch_gcd_summary_syntax_best_practices.html)
 8. [Google TensorFlow](http://www.tensorflow.org)
 9. [D parallelism](http://dlang.org/phobos/std_parallelism.html)
-10. [cppcon 2015]
+10. [cppcon 2015](http://cppcon.org)
   + [presentations](https://github.com/CppCon/CppCon2015)
   + [video](https://www.youtube.com/user/CppCon)
+  + [Ranges](https://www.youtube.com/watch?v=mFUXNMfaciE)
   + [Task stealing](https://www.youtube.com/watch?v=iLHNF7SgVN4)
   + [Coroutines](https://www.youtube.com/watch?v=_fu0gx-xseY)
