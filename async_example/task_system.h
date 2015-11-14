@@ -8,13 +8,11 @@
 */
 
 /**************************************************************************************************/
-
 #include <deque>
 #include <iostream>
 #include <memory>
 #include <thread>
 #include <vector>
-
 /**************************************************************************************************/
 namespace detail {
 
@@ -35,9 +33,7 @@ public:
         _q.pop_front();
         return true;
     }
-    
-    template<typename F>
-    bool try_push(F&& f) {
+    template<typename F> bool try_push(F&& f) {
         {
             lock_t lock{_mutex, try_to_lock};
             if (!lock) return false;
@@ -46,7 +42,6 @@ public:
         _ready.notify_one();
         return true;
     }
-    
     void done() {
         {
             unique_lock<mutex> lock{_mutex};
@@ -54,7 +49,6 @@ public:
         }
         _ready.notify_all();
     }
-    
     bool pop(function<void()>& x) {
         lock_t lock{_mutex};
         while (_q.empty() && !_done) _ready.wait(lock);
@@ -63,9 +57,7 @@ public:
         _q.pop_front();
         return true;
     }
-    
-    template<typename F>
-    void push(F&& f) {
+    template<typename F> void push(F&& f) {
         {
             lock_t lock{_mutex};
             _q.emplace_back(forward<F>(f));
@@ -75,7 +67,6 @@ public:
 };
 
 /**************************************************************************************************/
-
 class task_system {
     const unsigned              _count{thread::hardware_concurrency()};
     vector<thread>              _threads;
@@ -85,36 +76,28 @@ class task_system {
     void run(unsigned i) {
         while (true) {
             function<void()> f;
-            
             for (unsigned n = 0; n != _count * 32; ++n) {
                 if (_q[(i + n) % _count].try_pop(f)) break;
             }
             if (!f && !_q[i].pop(f)) break;
-            
             f();
         }
     }
-    
 public:
     task_system() {
         for (unsigned n = 0; n != _count; ++n) {
             _threads.emplace_back([&, n]{ run(n); });
         }
     }
-    
     ~task_system() {
         for (auto& e : _q) e.done();
         for (auto& e : _threads) e.join();
     }
-    
-    template <typename F>
-    void async(F&& f) {
+    template <typename F> void async(F&& f) {
         auto i = _index++;
-        
         for (unsigned n = 0; n != _count; ++n) {
             if (_q[(i + n) % _count].try_push(forward<F>(f))) return;
         }
-        
         _q[i % _count].push(forward<F>(f));
     }
 };
