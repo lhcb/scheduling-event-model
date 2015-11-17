@@ -91,23 +91,23 @@ fi
 cat <<EOF >Makefile
 projects=Gaudi LHCb Lbcom Rec Brunel
 
-all: $(projects)
+all: \$(projects)
 
 %: %/Makefile %/toolchain.cmake
-	$(MAKE) -C % install
+	\$(MAKE) -C % install
 
 %/Makefile:
-	ln -s ../Gaudi/Makefile-cmake.mk $@
+	ln -s ../Gaudi/Makefile-cmake.mk \$@
 
 %/toolchain.cmake:
-	ln -s ${LBUTILSROOT}/data/toolchain.cmake $@
+	ln -s \${LBUTILSROOT}/data/toolchain.cmake \$@
 
 LHCb: Gaudi
 Lbcom: LHCb
 Rec: Lbcom
 Brunel: Rec
 
-.FORCE: $(projects)
+.FORCE: \$(projects)
 EOF
 
 log INFO "Getting Gaudi"
