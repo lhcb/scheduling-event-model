@@ -91,16 +91,18 @@ fi
 cat <<EOF >Makefile
 projects=Gaudi LHCb Lbcom Rec Brunel
 
+.PHONY: all \$(projects)
+
 all: \$(projects)
 
-%: %/Makefile %/toolchain.cmake
-	\$(MAKE) -C \$@ install
+define project_template
+\$(1): .FORCE
+	@test -e \$(1)/Makefile || ln -s ../Gaudi/Makefile-cmake.mk \$(1)/Makefile
+	@test -e \$(1)/toolchain.cmake || ln -s \$\${LBUTILSROOT}/data/toolchain.cmake \$(1)/toolchain.cmake
+	\$\$(MAKE) -C \$(1) install
+endef
 
-%/Makefile:
-	ln -s ../Gaudi/Makefile-cmake.mk \$@
-
-%/toolchain.cmake:
-	ln -s \${LBUTILSROOT}/data/toolchain.cmake \$@
+\$(foreach proj,\$(projects),\$(eval \$(call project_template,\$(proj))))
 
 clean:
 	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
@@ -108,14 +110,12 @@ clean:
 purge:
 	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
 
-Gaudi: .FORCE
-LHCb: Gaudi .FORCE
-Lbcom: LHCb .FORCE
-Rec: Lbcom .FORCE
-Brunel: Rec .FORCE
+LHCb: Gaudi
+Lbcom: LHCb
+Rec: Lbcom
+Brunel: Rec
 
 .FORCE:
-	@#dummy
 EOF
 
 log INFO "Getting Gaudi"
