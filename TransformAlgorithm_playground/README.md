@@ -21,8 +21,8 @@ The above results in
             (i.e. 'user' only needs to provide scalar operation)
 
 
-The corresponding JIRA task is [GAUDI-1132](https://its.cern.ch/jira/browse/GAUDI-1132). If you have
-suggestions and/or requests, please add them to this JIRA task.
+The corresponding JIRA task for the GAUDI infrastructure changes is [GAUDI-1132](https://its.cern.ch/jira/browse/GAUDI-1132). 
+If you have suggestions and/or requests, eg. you find that features are missing for your particular use, please add them to this JIRA task.
 
 The changes can be shown by going into the Rec directory, and
 comparing the 'Paris2015-baseline' tag and the 'HEAD' of the Paris2015 branch,
