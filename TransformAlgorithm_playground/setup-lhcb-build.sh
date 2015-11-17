@@ -94,7 +94,7 @@ projects=Gaudi LHCb Lbcom Rec Brunel
 all: \$(projects)
 
 %: %/Makefile %/toolchain.cmake
-	\$(MAKE) -C % install
+	\$(MAKE) -C \$@ install
 
 %/Makefile:
 	ln -s ../Gaudi/Makefile-cmake.mk \$@
@@ -102,12 +102,20 @@ all: \$(projects)
 %/toolchain.cmake:
 	ln -s \${LBUTILSROOT}/data/toolchain.cmake \$@
 
-LHCb: Gaudi
-Lbcom: LHCb
-Rec: Lbcom
-Brunel: Rec
+clean:
+	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
 
-.FORCE: \$(projects)
+purge:
+	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
+
+Gaudi: .FORCE
+LHCb: Gaudi .FORCE
+Lbcom: LHCb .FORCE
+Rec: Lbcom .FORCE
+Brunel: Rec .FORCE
+
+.FORCE:
+	@#dummy
 EOF
 
 log INFO "Getting Gaudi"
