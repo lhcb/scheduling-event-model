@@ -1,24 +1,23 @@
 # TransformAlgorithm Playground
 
-The setup-lhcb-build.sh script in this directory will checkout versions
-of Gaudi, LHCb, Lbcom, Rec and Brunel from a git branch dedicated to 
-playing around with 'TransformAlgorithm'.
+The setup-lhcb-build.sh script in this directory will checkout versions of Gaudi, LHCb,
+Lbcom, Rec and Brunel from a git branch dedicated to playing around with 'TransformAlgorithm'.
 
+The aim of 'TransformAlgorithm' is to demonstrate
 
-The aim of 'TransformAlgorithm' is to demonstrate 
-    - one can remove explicit TES interactions from non-framework code
-    - one can make algorithms 'const' during the event loop
-    - one can pass input and output 'by const reference' resp. 'by value' without
-      loss of efficiency
+1.  one can remove explicit TES interactions from non-framework code
+-  one can make algorithms 'const' during the event loop
+-  one can pass input and output 'by const reference' resp. 'by value' without loss of efficiency
 
-The above results in 
-    - less 'boiler plate', 
-    - more uniform 'look and feel'
-    - naturally provides a more 'declarative' style of codeing
-    - code which is more 'future proof', i.e. it
-         +  can be wrapped in futures
-         +  can be run asychonously
-         +  can allow for automatic scalar->vector adaption
+The above results in
+
+1. less 'boiler plate',
+- more uniform 'look and feel'
+- naturally provides a more 'declarative' style of coding
+- code which is more 'future proof', i.e. it
+    +   can be wrapped in futures
+    +  can be run asychonously
+    +  can allow for automatic scalar to vector adaption
             (i.e. 'user' only needs to provide scalar operation)
 
 
@@ -34,5 +33,4 @@ https://gitlab.cern.ch/graven/Rec/compare/Paris2015-baseline...Paris2015
 or in a (nicer) side-by-side view:
 
 https://gitlab.cern.ch/graven/Rec/compare/Paris2015-baseline...Paris2015?view=parallel
-
 
