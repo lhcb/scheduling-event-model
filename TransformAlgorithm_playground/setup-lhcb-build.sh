@@ -83,9 +83,9 @@ if [ -n "${build_ninja}" ];then
     ( cd ninja-build ; git checkout release ; ./configure.py --bootstrap )
     cp ninja-build/ninja $DST/ninja
     rm -rf ninja-build
-    echo "export PATH=${DST}:$PATH" >> setup.sh
+    echo "export PATH=${DST}:\$PATH" >> setup.sh
 else
-    echo 'export PATH=\$PATH:/afs/cern.ch/sw/lcg/contrib/ninja/1.4.0/x86_64-slc6' >> setup.sh
+    echo 'export PATH=$PATH:/afs/cern.ch/sw/lcg/contrib/ninja/1.4.0/x86_64-slc6' >> setup.sh
 fi
 
 cat <<EOF >Makefile
