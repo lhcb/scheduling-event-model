@@ -6,7 +6,7 @@
 #
 # Public domain license, use any way you see fit.
 #
-# This will only build using SLC 6, set up an environment like in 
+# This will only build using SLC 6, set up an environment like in
 # install-slc6-schroot.sh to build the LHCb code.
 #
 # To build, source setup.sh, then just make configure and make install for
@@ -23,15 +23,13 @@ log() {
 }
 
 # Check for required binaries on the host
-if [ \! -x "$(which git 2>/dev/null)" ]; then
+if [ \! -x "$(which git 2>/dev/null)" ] ; then
         log ERR "Git is not installed"
         exit 1
 fi
-if [ \! -x "$(which ninja 2>/dev/null)" ];then
+if [ \! -x "$(which ninja 2>/dev/null)" -a ! -e /afs/cern.ch/sw/lcg/contrib/ninja/1.4.0/x86_64-slc6/ninja ] ; then
         log WARN "Ninja is not installed. Will Install Ninja "
-fi
-if [ \! -x "$(which ccache-swig 2>/dev/null)" ];then
-        log WARN "Ccache-swig is not installed. Expect slow(er) rebuilds"
+        build_ninja=1
 fi
 if [ "$(whoami)" = "root" ];then
         log ERR "You are root. Run as user"
@@ -46,7 +44,7 @@ fi
 DST="$1"
 
 # Convert the DST to an absolute path
-if [ "$(echo ${DST}|cut -c1)" != "/" ];then
+if [ "$(echo ${DST}|cut -c1)" != "/" ] ; then
         DST="${PWD}/${DST}"
 fi
 
@@ -65,43 +63,69 @@ cd ${DST}
 cat << EOF > setup.sh
 #!/bin/sh
 export USE_CMAKE=1
-export MYSITEROOT="/cvmfs/lhcb.cern.ch/lib"
+export LC_ALL="C"
 export CMTCONFIG=x86_64-slc6-gcc49-opt
-export LC_ALL="en_US.UTF-8"
 export CMAKEFLAGS="-DCMAKE_USE_CCACHE=ON"
-source \${MYSITEROOT}/lhcb/LBSCRIPTS/prod/InstallArea/scripts/LbLogin.sh --mysiteroot \${MYSITEROOT}  --cmtconfig \${CMTCONFIG}
-export CMTPROJECTPATH=$PWD:$CMTPROJECTPATH
+if [ -e /cvmfs/lhcb.cern.ch/lib ] ; then
+  export MYSITEROOT="/cvmfs/lhcb.cern.ch/lib"
+  source \${MYSITEROOT}/lhcb/LBSCRIPTS/prod/InstallArea/scripts/LbLogin.sh --mysiteroot \${MYSITEROOT}  --cmtconfig \${CMTCONFIG}
+else
+  source /afs/cern.ch/lhcb/software/releases/LBSCRIPTS/prod/InstallArea/scripts/LbLogin.sh --cmtconfig \${CMTCONFIG}
+fi
+export CMTPROJECTPATH=${DST}:\${CMTPROJECTPATH}
+export CMAKE_PREFIX_PATH=${DST}/Gaudi/cmake:\$CMAKE_PREFIX_PATH
 unset VERBOSE
 EOF
 
-if [ \! -x "$(which ninja >& /dev/null)" ];then
+if [ -n "${build_ninja}" ];then
     log INFO "Ninja not found -- checking out and building ninja"
     git clone git://github.com/martine/ninja.git ninja-build
     ( cd ninja-build ; git checkout release ; ./configure.py --bootstrap )
     cp ninja-build/ninja $DST/ninja
     rm -rf ninja-build
-    cat <<EOF >>setup.sh
-if [ \! -x "\$(which ninja 2> /dev/null)" ];then
-    export PATH=${DST}:\$PATH
-fi
-EOF
+    echo "export PATH=${DST}:\$PATH" >> setup.sh
+else
+    echo 'export PATH=$PATH:/afs/cern.ch/sw/lcg/contrib/ninja/1.4.0/x86_64-slc6' >> setup.sh
 fi
 
-log INFO "Setting up Gaudi"
+cat <<EOF >Makefile
+projects=Gaudi LHCb Lbcom Rec Brunel
+
+.PHONY: all \$(projects)
+
+all: \$(projects)
+
+define project_template
+\$(1): .FORCE
+	@test -e \$(1)/Makefile || ln -s ../Gaudi/Makefile-cmake.mk \$(1)/Makefile
+	@test -e \$(1)/toolchain.cmake || ln -s \$\${LBUTILSROOT}/data/toolchain.cmake \$(1)/toolchain.cmake
+	\$\$(MAKE) -C \$(1) install
+endef
+
+\$(foreach proj,\$(projects),\$(eval \$(call project_template,\$(proj))))
+
+clean:
+	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
+
+purge:
+	for proj in \$(projects) ; do \$(MAKE) -C \$\${proj} \$@ ; done
+
+LHCb: Gaudi
+Lbcom: LHCb
+Rec: Lbcom
+Brunel: Rec
+
+.FORCE:
+EOF
+
+log INFO "Getting Gaudi"
 git clone ssh://git@gitlab.cern.ch:7999/graven/Gaudi.git -b Paris2015
-if [ \! -f Gaudi/Makefile ]; then
-	echo 'include ${LBCONFIGURATIONROOT}/data/Makefile' > Gaudi/Makefile
-fi
 
 for project in LHCb Lbcom Rec Brunel;do
-	log INFO "Setting up ${project}"
+	log INFO "Getting ${project}"
 	git clone ssh://git@gitlab.cern.ch:7999/graven/${project}.git -b Paris2015
-	cp -a Gaudi/cmake ${project}/cmake
-	ln -s ../Gaudi/Makefile ${project}/Makefile
-	ln -s ../Gaudi/toolchain.cmake ${project}/toolchain.cmake
 done
 log INFO "Done.\n\nTo build: go to the ${DST} directory, then do:\n\n"
 echo "source setup.sh"
-for project in Gaudi LHCb Lbcom Rec Brunel;do
-    echo "( cd ${project} ; make install )"
-done
+echo "make"
+
